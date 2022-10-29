@@ -10,4 +10,4 @@ The main file is Regression.ipynb, you should be able to run it with the two fil
 
 
 ### Reference link:
-https://github.com/JeffJeffy/CS229Project***
+https://github.com/JeffJeffy/CS229Project
