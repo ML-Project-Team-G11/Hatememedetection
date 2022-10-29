@@ -1,4 +1,4 @@
-##The base model along with the results is uploaded here.
+***The base model along with the results is uploaded here.
 
 The objective is to predict movie ratings based on three types of data: image(posters), text(synopses), and others (genre, director, etc). 
 Multiple regression algorithms are used, from linear regressions to random forest, boosting, and SVR. Neural networks like CNN and RNN(LSTM) are also used to combine the three types of data. 
@@ -11,3 +11,4 @@ The main file is Regression.ipynb, you should be able to run it with the two fil
 
 Reference link:
 https://github.com/JeffJeffy/CS229Project
+***
