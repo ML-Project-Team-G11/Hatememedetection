@@ -5,13 +5,20 @@ HOME = os.environ.get("HOME")
 class CFG:
     annotations_path = f"{HOME}/.cache/torch/mmf/data/datasets/hateful_memes/defaults/annotations/"
     batch_size = 32
-    clip_model_type = "ViT-B/32"
+    base_model = "ViT-B/32" #"ViT-L/14@336px"
     device = "cuda"
     epochs = 10
     home = os.environ.get("HOME")
     images_path = f"{HOME}/.cache/torch/mmf/data/datasets/hateful_memes/defaults/images/img/"
     learning_rate = 0.001
-    seed = 2022
+    seed = 42
+    num_linear_layers = 2
+    activation = "relu"
+
+    fusion_method = "align"
+
+    train_image_base_model=True
+    train_text_base_model=True
     
 
 
