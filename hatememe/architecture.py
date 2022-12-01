@@ -16,6 +16,9 @@ class HMMLP(nn.Module):
     ) -> None:
         super().__init__()
         print("Model initialized...")
+        for attr, val in config.__class__.__dict__.items():
+            if isinstance(val, (int, float, str, list, tuple, set,)):
+                print(f"{attr:20}: {val}")
         self.config = config
 
         self.n_in = self._get_linear_input_dim()
@@ -75,8 +78,9 @@ class HMMLP(nn.Module):
 
     def _get_linear_input_dim(self,):
         map = {
-            "align":self.base_model.visual.output_dim*2, 
+            "concat":self.base_model.visual.output_dim*2, 
             "cross":self.base_model.visual.output_dim**2,
+            "align":self.base_model.visual.output_dim
         }
 
         return map[self.config.fusion_method]
@@ -105,13 +109,16 @@ class HMMLP(nn.Module):
         return encode_text
 
     def _fusion_method_map(self, method):
+        map = {
+            "concat": lambda images, texts: torch.hstack((images, texts)),
+            "cross": lambda images, texts: torch.bmm(images.unsqueeze(dim=2), texts.unsqueeze(dim=1)).view(images.shape[0], -1),
+            "align": lambda images, texts: torch.mul(images, texts),
+        }
         if callable(method):
             return method
-        if method=="align":
-            return lambda images, texts: torch.hstack((images, texts))
-        if method=="cross":
-            return lambda images, texts: torch.bmm((images.unsqueeze(dim=2), texts.unsqueeze(dim=1)))
-
+        fusion_callable = map.get(method)
+        if fusion_callable:
+            return fusion_callable
         raise ValueError(f"Invalid fusion method `{method}` provided.")
 
     def fuse_image_text_embd(self, images, texts, fusion_method):

@@ -17,9 +17,10 @@ import clip
 from hatememe.config import CFG
 from hatememe.dataset import HMDataset
 from hatememe.architecture import HMMLP
-from logging import log
-# from hatememe.logger import log
+# from logging import log, basicConfig
+from hatememe.logger import log
 
+# basicConfig(level=20)
 
 seed_everything(CFG.seed, workers=True)
 
@@ -152,8 +153,3 @@ for epoch in range(cfg.epochs):
     )
     
     log(level=20, msg={"phase":"val", "epoch":epoch, "step":i+1, "loss":running_loss/i+1, "f1_score":f1_score, "accuracy":accuracy_score})
-    preds_all_val = preds_all_val.round()
-
-    if preds_all_val.int().sum()>0:
-        print(sum(preds_all_val.int()))
-
