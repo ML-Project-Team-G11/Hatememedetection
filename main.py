@@ -151,6 +151,9 @@ for epoch in range(cfg.epochs):
     accuracy_score = accuracy(preds_all_val, labels_all_val)
     f1 = BinaryF1Score().to(device)
     f1_score = f1(preds_all_val, labels_all_val.int())
+    if auroc_score > best_auroc:
+        torch.save(net.state_dict(), cfg.model_path)
+        best_auroc = auroc_score
     print(
         f"[Epoch {epoch +1}, step {i+1:3d}] val loss: {running_loss/i+1:.5f} accuracy: "
         f"{accuracy_score} auroc: {auroc_score} f1_score: {f1_score}"
@@ -161,6 +164,13 @@ for epoch in range(cfg.epochs):
 ###################
 # Testing loop 
 ###################
+
+# Load the best model
+net = HMMLP()
+net.load_state_dict(torch.load(cfg.model_path))
+net = net.cuda()
+net.eval()
+
 preds_all_val = torch.tensor([]).cuda()
 labels_all_val = torch.tensor([]).cuda()
 
