@@ -113,7 +113,7 @@ for epoch in range(cfg.epochs):
             print(
                 f"[Epoch {epoch + 1}, step {i+1:3d}] loss: {running_loss/cfg.log_every:.5f}"
             )
-            log({"epoch":epoch, "step":i+1, "loss":running_loss/cfg.log_every})
+            log({"epoch":epoch, "train_loss":running_loss/cfg.log_every})
             running_loss = 0.0
 
             wandb.watch(net)
