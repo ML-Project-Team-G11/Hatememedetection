@@ -1,19 +1,23 @@
 import os
 import clip
 from copy import deepcopy
+from datetime import datetime
 
+now = datetime.now()
 HOME = os.environ.get("HOME")
 
 class CFG:
+    experiment_name = f"Exp_{now}"
     annotations_path = f"{HOME}/.cache/torch/mmf/data/datasets/hateful_memes/defaults/annotations/"
-    batch_size = 62
+    model_path = f"{HOME}/.cache/torch/mmf/data/datasets/hateful_memes/defaults/model/{experiment_name}"
+    batch_size = 64
     # base_model = "ViT-B/32" #
     base_model = "ViT-L/14@336px"
     device = "cuda"
     epochs = 20
     home = os.environ.get("HOME")
     images_path = f"{HOME}/.cache/torch/mmf/data/datasets/hateful_memes/defaults/images/img/"
-    learning_rate = 0.001
+    learning_rate = 0.0001
     weight_decay = 0.0001
     seed = 42
     num_linear_layers = 3
@@ -21,9 +25,10 @@ class CFG:
     dropout_prob = 0.3
     log_every = 50
     # clip_value = 5
+    add_memotion = False
 
 
-    fusion_method = "align"
+    fusion_method = "concat"
 
     train_image_base_model=False
     train_text_base_model=False
