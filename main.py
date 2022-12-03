@@ -38,7 +38,8 @@ train_dataset = HMDataset(
         os.path.join(cfg.annotations_path,'train_updated.jsonl'),
         image_transform=cfg.image_transform,
         text_transform=cfg.text_transform,
-        eager_transform=eager_transform
+        eager_transform=eager_transform,
+        add_memotion=True,
     )
     
 val_dataset = HMDataset(
@@ -73,6 +74,8 @@ convert_models_to_fp32(net)
 num_workers=30
 
 train_dataloader = DataLoader(train_dataset, batch_size=cfg.batch_size, shuffle=True, num_workers=num_workers)
+val_dataloader = DataLoader(val_dataset, batch_size=cfg.batch_size, shuffle=False, num_workers=num_workers)
+test_dataloader = DataLoader(test_dataset, batch_size=cfg.batch_size, shuffle=False, num_workers=num_workers)
 
 net = net.to(device)
 criterion = nn.BCEWithLogitsLoss()
@@ -81,6 +84,8 @@ optimizer = torch.optim.AdamW(net.parameters(), lr=cfg.learning_rate, weight_dec
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, len(train_dataloader)*cfg.epochs)
 
 scaler = torch.cuda.amp.GradScaler()
+
+best_auroc = 0
 
 for epoch in range(cfg.epochs):
     running_loss = 0
@@ -108,10 +113,10 @@ for epoch in range(cfg.epochs):
             print(
                 f"[Epoch {epoch + 1}, step {i+1:3d}] loss: {running_loss/cfg.log_every:.5f}"
             )
-            log(level=20, msg={"phase": "train", "epoch":epoch, "step":i+1, "loss":running_loss/cfg.log_every})
+            log({"epoch":epoch, "step":i+1, "loss":running_loss/cfg.log_every})
             running_loss = 0.0
 
-            # wandb.watch(net)
+            wandb.watch(net)
 
     scheduler.step()
 
@@ -121,7 +126,6 @@ for epoch in range(cfg.epochs):
     preds_all_val = torch.tensor([]).cuda()
     labels_all_val = torch.tensor([]).cuda()
 
-    val_dataloader = DataLoader(val_dataset, batch_size=cfg.batch_size, shuffle=False, num_workers=num_workers)
     for i, data in enumerate(tqdm(val_dataloader), 0):
 
         images, texts, labels = data
@@ -152,4 +156,33 @@ for epoch in range(cfg.epochs):
         f"{accuracy_score} auroc: {auroc_score} f1_score: {f1_score}"
     )
     
-    log(level=20, msg={"phase":"val", "epoch":epoch, "step":i+1, "loss":running_loss/i+1, "f1_score":f1_score, "accuracy":accuracy_score})
+    log({"val_loss":running_loss/i+1, "val_f1_score":f1_score, "val_accuracy":accuracy_score, "val_auroc":auroc_score})
+
+###################
+# Testing loop 
+###################
+preds_all_val = torch.tensor([]).cuda()
+labels_all_val = torch.tensor([]).cuda()
+
+for i, data in enumerate(tqdm(test_dataloader), 0):
+
+    images, texts, labels = data
+    images = images.to(device)
+    texts = texts.to(device)
+    labels = labels.squeeze().to(device)
+
+    with torch.cuda.amp.autocast():
+        output = net(images, texts)
+        # loss = criterion(output.squeeze(), labels.squeeze())
+
+    preds_all_val = torch.cat((preds_all_val, torch.sigmoid(output).squeeze()))
+    labels_all_val = torch.cat((labels_all_val, labels))
+    
+auroc = BinaryAUROC().to(device)
+auroc_score = auroc(preds_all_val, labels_all_val.int())
+accuracy = BinaryAccuracy().to(device)
+accuracy_score = accuracy(preds_all_val, labels_all_val)
+f1 = BinaryF1Score().to(device)
+f1_score = f1(preds_all_val, labels_all_val.int())
+
+log({"test_f1_score":f1_score, "test_accuracy":accuracy_score, "test_auroc":auroc_score})
