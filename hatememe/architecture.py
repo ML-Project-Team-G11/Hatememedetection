@@ -65,9 +65,9 @@ class HMMLP(nn.Module):
 
     def freeze_pretrained_weights(self):
         for param_name, p in self.base_model.named_parameters():
-            if self.config.train_image_base_model and param_name.starts_with("model.visual"):
+            if self.config.train_image_base_model and param_name.startswith("model.visual"):
                 continue
-            if self.config.train_text_base_model and param_name.starts_with("model.transformer"):
+            if self.config.train_text_base_model and param_name.startswith("model.transformer"):
                 continue
             p.requires_grad_(False)
         
