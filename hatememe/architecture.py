@@ -21,6 +21,8 @@ class HMMLP(nn.Module):
                 print(f"{attr:20}: {val}")
         self.config = config
 
+        self.base_model = self._base_model
+
         self.n_in = self._get_linear_input_dim()
         self.n_out = n_out
 
@@ -28,10 +30,15 @@ class HMMLP(nn.Module):
         self.image_projection_layer = self.image_projection()
         self.linear_layers = self._get_linear_layers()
 
-        self.linear_image_layers = self._get_linear_layers(n_in=self.base_model.visual.output_dim)
-        self.linear_text_layers = self._get_linear_layers(n_in=self.base_model.transformer.width)
+        n_inp_final = 1
+        if config.add_linear_image_layers:
+            self.linear_image_layers = self._get_linear_layers(n_in=self.base_model.visual.output_dim)
+            n_inp_final +=1
+        if config.add_linear_text_layers:
+            self.linear_text_layers = self._get_linear_layers(n_in=self.base_model.transformer.width)
+            n_inp_final +=1
 
-        self.output_layer = nn.Linear(3, 1)
+        self.output_layer = nn.Linear(n_inp_final, n_out)
 
         self.freeze_pretrained_weights()
 
@@ -50,14 +57,18 @@ class HMMLP(nn.Module):
         return nn.Sequential(layer, activation)
 
     @cached_property
-    def base_model(self):
+    def _base_model(self):
         if hasattr(self.config, "model"):
             return self.config.model
         model, _ = clip.load(self.config.base_model, device=torch.device(self.config.device))
         return deepcopy(model)
 
     def freeze_pretrained_weights(self):
-        for _, p in self.base_model.named_parameters():
+        for param_name, p in self.base_model.named_parameters():
+            if self.config.train_image_base_model and param_name.starts_with("model.visual"):
+                continue
+            if self.config.train_text_base_model and param_name.starts_with("model.transformer"):
+                continue
             p.requires_grad_(False)
         
 
@@ -92,21 +103,6 @@ class HMMLP(nn.Module):
         activation_function = map[activation_name]
         return activation_function
 
-    def encode_image(self,image):
-        if self.config.train_image_base_model:
-            encode_image = self.base_model.encode_image(image)
-        else:
-            with torch.no_grad():
-                encode_image = self.base_model.encode_image(image)
-        return encode_image
-
-    def encode_text(self, text):
-        if self.config.train_text_base_model:
-            encode_text = self.base_model.encode_text(text)
-        else:
-            with torch.no_grad():
-                encode_text = self.base_model.encode_text(text)
-        return encode_text
 
     def _fusion_method_map(self, method):
         map = {
@@ -126,13 +122,13 @@ class HMMLP(nn.Module):
         fused_images_texts = fusion_function(images, texts)
         return fused_images_texts
 
-    def pre_output_fusion(self, images_texts_logits, images_logits, texts_logits):
-        return torch.hstack((images_texts_logits, images_logits, texts_logits))
+    def pre_output_fusion(self, *args):
+        return torch.hstack(args)
 
     def forward(self, images, texts):
 
-        images = self.encode_image(images)
-        texts = self.encode_text(texts.squeeze())
+        images = self.base_model.encode_image(images)
+        texts = self.base_model.encode_text(texts.squeeze())
 
         # Apply the projection layers
         images = self.image_projection_layer(images)
@@ -145,10 +141,16 @@ class HMMLP(nn.Module):
         images_texts_fused = self.fuse_image_text_embd(images, texts, self.config.fusion_method)
 
         images_texts_logits = self.linear_layers(images_texts_fused)
-        images_logits = self.linear_image_layers(images)
-        texts_logits = self.linear_text_layers(texts)
 
-        pre_output = self.pre_output_fusion(images_texts_logits, images_logits, texts_logits)
+        args_to_pre_output=[images_texts_logits]
+        if self.config.add_linear_image_layers:
+            images_logits = self.linear_image_layers(images)
+            args_to_pre_output.append(images_logits)
+        if self.config.add_linear_text_layers:
+            texts_logits = self.linear_text_layers(texts)
+            args_to_pre_output.append(texts_logits)
+
+        pre_output = self.pre_output_fusion(*args_to_pre_output)
 
         logits = self.output_layer(pre_output)
 

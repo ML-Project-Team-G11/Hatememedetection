@@ -3,35 +3,36 @@ import clip
 from copy import deepcopy
 from datetime import datetime
 
-now = datetime.now()
-HOME = os.environ.get("HOME")
+from hatememe import parser
+
+args = parser.get_args()
 
 class CFG:
-    experiment_name = f"Exp_{now}"
-    annotations_path = f"{HOME}/.cache/torch/mmf/data/datasets/hateful_memes/defaults/annotations/"
-    model_path = f"{HOME}/.cache/torch/mmf/data/datasets/hateful_memes/defaults/model/{experiment_name}"
-    batch_size = 64
-    # base_model = "ViT-B/32" #
-    base_model = "ViT-L/14@336px"
-    device = "cuda"
-    epochs = 20
-    home = os.environ.get("HOME")
-    images_path = f"{HOME}/.cache/torch/mmf/data/datasets/hateful_memes/defaults/images/img/"
-    learning_rate = 0.0001
-    weight_decay = 0.0001
-    seed = 42
-    num_linear_layers = 3
-    activation = "gelu"
-    dropout_prob = 0.3
-    log_every = 50
-    # clip_value = 5
-    add_memotion = False
+    experiment_name = args.experiment_name
+    annotations_path = args.annotations_path
+    model_path = args.model_path
+    batch_size = args.batch_size
+    base_model = args.base_model
+    device = args.device
+    epochs = args.epochs
+    home = args.home
+    images_path = args.images_path
+    learning_rate = args.learning_rate
+    weight_decay = args.weight_decay
+    seed = args.seed
+    num_linear_layers = args.num_linear_layers
+    activation = args.activation
+    dropout_prob = args.dropout_prob
+    log_every = args.log_every
+    add_memotion = args.add_memotion
 
+    add_linear_image_layers = args.add_linear_image_layers
+    add_linear_text_layers = args.add_linear_text_layers
 
-    fusion_method = "concat"
+    fusion_method = args.fusion_method
 
-    train_image_base_model=False
-    train_text_base_model=False
+    train_image_base_model = args.train_image_base_model
+    train_text_base_model = args.train_text_base_model
     
 
 
@@ -61,3 +62,4 @@ class CFG:
             return self.model.encode_text
         model, self.preprocess = clip.load(self.base_model)
         return deepcopy(model.encode_text)
+

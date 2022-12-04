@@ -39,7 +39,7 @@ train_dataset = HMDataset(
         image_transform=cfg.image_transform,
         text_transform=cfg.text_transform,
         eager_transform=eager_transform,
-        add_memotion=True,
+        add_memotion=cfg.add_memotion,
     )
     
 val_dataset = HMDataset(

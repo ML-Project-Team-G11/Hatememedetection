@@ -30,10 +30,11 @@ class HMDataset(Dataset):
         self.annotation: pd.DataFrame = pd.read_json(annotation_path, lines=True)
 
         if add_memotion:
+            memotion_path = os.path.join(os.path.dirname(annotation_path), "label_memotion.jsonl")
             memotion_annotation: pd.DataFrame = \
-                pd.read_json(f"{annotation_path}/label_memotion.jsonl", lines=True)
-            self.annotation = pd.concat([self.annotation, memotion_annotation], axis=0)
-
+                pd.read_json(memotion_path, lines=True)
+            self.annotation = pd.concat([self.annotation, memotion_annotation], axis=0).reset_index(drop=True)
+            self.annotation["img"] = self.annotation["img"].str.replace("img/","")
         self.images_paths = [os.path.join(images_path, self.annotation.loc[index, "img"]) for index in range(self.__len__())]
 
         
