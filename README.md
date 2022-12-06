@@ -45,5 +45,5 @@ and part of the Memotion 7k dataset was used for this project.
 
 #### Notebooks
 
-* [add_memotion_dataset.ipynb](../main/hatememe/add_memotion dataset.ipynb) - contains code for adding Memotion dataset to train set
+* [add_memotion_dataset.ipynb](../main/hatememe/add_memotion_dataset.ipynb) - contains code for adding Memotion dataset to train set
 * [hatememe_clip.ipynb](../main/hatememe/hatememe_clip.ipynb) - contains our initial implementation of the project
