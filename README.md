@@ -35,9 +35,9 @@ Some related literature we referenced can be found [here](../main/Papers)
 
 #### Scripts
 
-*[architecture.py](../main/hatememe/architecture.py) - contains model architecture definitions
-*[config.py](../main/hatememe/config.py) - contains model configurations assignment class
-*[dataset.py](../main/hatememe/dataset.py) - contains dataset loading class
-*[logger.py](../main/hatememe/logger.py) - contains wandb logger setup
-*[parser.py](../main/hatememe/parser.py) - contains sode for parsing arguments from the command line
+* [architecture.py](../main/hatememe/architecture.py) - contains model architecture definitions
+* [config.py](../main/hatememe/config.py) - contains model configurations assignment class
+* [dataset.py](../main/hatememe/dataset.py) - contains dataset loading class
+* [logger.py](../main/hatememe/logger.py) - contains wandb logger setup
+* [parser.py](../main/hatememe/parser.py) - contains sode for parsing arguments from the command line
 
