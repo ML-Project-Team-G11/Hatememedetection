@@ -5,7 +5,7 @@ This repository contains codes of the ML701 capstone project at MBZUAI.
 
 ### Overview
 <p>
-  Multi-modal learning aims to build models that can process and relate information from multiple modalities. Hateful memes are a recent trend of spreading hate speech on social platforms. They can be in form of videos or images that usually include text which is sarcastic or directly promotes and spreads hate, normalisation of divisiveness, and justification of violence. The hate in a meme is conveyed through both the image and the text; therefore, these two modalities need to be considered, as singularly analyzing embedded text or images will lead to inaccurate identification.
+  Multi-modal learning aims to build models that can process and relate information from multiple modalities. Hateful memes are a recent trend of spreading hate speech on social platforms. The hate in a meme is conveyed through both the image and the text; therefore, these two modalities need to be considered, as singularly analyzing embedded text or images will lead to inaccurate identification.
 </p>
 
 
@@ -31,8 +31,6 @@ Some related literature we referenced can be found [here](../main/Papers)
 
 The facebook HatefulMeme Challenge Dataset found <a href="https://www.kaggle.com/datasets/williamberrios/hateful-memes">here</a>
 and part of the Memotion 7k dataset was used for this project.
-
-
 
 [label_memotion.jsonl](../main/label_memotion.jsonl) - contains extracted texts from hate memes and image file name
 
