@@ -29,9 +29,12 @@ Some related literature we referenced can be found [here](../main/Papers)
 
 #### Dataset
 
-<p> The facebook HatefulMeme Challenge Dataset found <a href="https://www.kaggle.com/datasets/williamberrios/hateful-memes">here</a>
-and part of the Memotion 7k dataset was used for this project. </p>
-* [label_memotion.jsonl](../main/label_memotion.jsonl) - contains extracted texts from hate memes
+The facebook HatefulMeme Challenge Dataset found <a href="https://www.kaggle.com/datasets/williamberrios/hateful-memes">here</a>
+and part of the Memotion 7k dataset was used for this project.
+
+
+
+[label](../main/) - contains extracted texts from hate memes and image file name
 
 #### Scripts
 
