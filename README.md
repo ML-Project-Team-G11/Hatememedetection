@@ -1,7 +1,7 @@
 # Multimodal Learning - Hate Meme Detection
 This repository contains codes of the ML701 capstone project at MBZUAI. 
 
-[Project Proposal](../main/G11_ML701_Project_Proposal.pdf)          [Poster](../main/ML701_Project_Poster.pdf)
+[Proposal](../main/G11_ML701_Project_Proposal.pdf)          [Poster](../main/ML701_Project_Poster.pdf)
 
 ### Overview
 <p>
