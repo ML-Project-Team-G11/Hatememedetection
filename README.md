@@ -1,7 +1,7 @@
 # Multimodal Learning - Hate Meme Detection
 This repository contains codes of the ML701 capstone project at MBZUAI. 
 
-[ProjectProposal](../main/G11_ML701_Project_Proposal.pdf)   [Poster](../main/ML701_Project_Poster.pdf)
+[Project Proposal](../main/G11_ML701_Project_Proposal.pdf)          [Poster](../main/ML701_Project_Poster.pdf)
 
 ### Overview
 <p>
@@ -11,12 +11,6 @@ This repository contains codes of the ML701 capstone project at MBZUAI.
 
 ### Runtime
 python-3.10.10
-
-### Dataset
-
-<p> The facebook HatefulMeme Challenge Dataset found <a href="https://www.kaggle.com/datasets/williamberrios/hateful-memes">here</a>
-and part of the Memotion 7k dataset was used for this project. </p>
-
 
 ### Steps to Run
 ```
@@ -33,6 +27,12 @@ python main.py
 
 Some related literature we referenced can be found [here](../main/Papers)
 
+#### Dataset
+
+<p> The facebook HatefulMeme Challenge Dataset found <a href="https://www.kaggle.com/datasets/williamberrios/hateful-memes">here</a>
+and part of the Memotion 7k dataset was used for this project. </p>
+* [label_memotion.jsonl](../main/label_memotion.jsonl) - contains extracted texts from hate memes
+
 #### Scripts
 
 * [architecture.py](../main/hatememe/architecture.py) - contains model architecture definitions
@@ -40,8 +40,9 @@ Some related literature we referenced can be found [here](../main/Papers)
 * [dataset.py](../main/hatememe/dataset.py) - contains dataset loading class
 * [logger.py](../main/hatememe/logger.py) - contains wandb logger setup
 * [parser.py](../main/hatememe/parser.py) - contains code for parsing arguments from the command line
+* [run.sh](../main/run.sh) - contains code for parsing arguments from the command line
 
-#### Notebooks
+#### Notebooks
 
-* [add_memotion dataset.ipynb](../main/hatememe/add_memotion dataset.ipynb) - contains code for adding Memotion dataset to train set
+* [add_memotion_dataset.ipynb](../main/hatememe/add_memotion dataset.ipynb) - contains code for adding Memotion dataset to train set
 * [hatememe_clip.ipynb](../main/hatememe/hatememe_clip.ipynb) - contains our initial implementation of the project
