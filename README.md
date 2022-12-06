@@ -14,8 +14,9 @@ python-3.10.10
 
 ### Dataset
 
-<p> The facebook HatefulMeme Challenge Dataset found [here](https://www.kaggle.com/datasets/williamberrios/hateful-memes) and part of the Memotion 7k dataset was used for this project.
-</p>
+<p> The facebook HatefulMeme Challenge Dataset found <a href="https://www.kaggle.com/datasets/williamberrios/hateful-memes">here</a>
+and part of the Memotion 7k dataset was used for this project. </p>
+
 
 ### Steps to Run
 ```
@@ -28,11 +29,15 @@ python main.py
 
 ### Features
 
-#### Related Work
+#### Related Work 
 
-<p>
 Some related literature we referenced can be found [here](../main/Papers)
-</p>
 
 #### Scripts
+
+*[architecture.py](../main/hatememe/architecture.py) - contains model architecture definitions
+*[config.py](../main/hatememe/config.py) - contains model configurations assignment class
+*[dataset.py](../main/hatememe/dataset.py) - contains dataset loading class
+*[logger.py](../main/hatememe/logger.py) - contains wandb logger setup
+*[parser.py](../main/hatememe/parser.py) - contains sode for parsing arguments from the command line
 
