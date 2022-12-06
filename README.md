@@ -34,7 +34,7 @@ and part of the Memotion 7k dataset was used for this project.
 
 
 
-[label](../main/) - contains extracted texts from hate memes and image file name
+[label_memotion.jsonl](../main/label_memotion.jsonl) - contains extracted texts from hate memes and image file name
 
 #### Scripts
 
