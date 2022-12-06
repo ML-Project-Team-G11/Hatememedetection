@@ -12,6 +12,11 @@ This repository contains codes of the ML701 capstone project at MBZUAI.
 python-3.10.10
 
 
+### Dataset
+
+<p> The facebook HatefulMeme Challenge Dataset found [here](https://www.kaggle.com/datasets/williamberrios/hateful-memes) and part of the Memotion 7k dataset was used for this project.
+</p>
+
 ### Steps to Run
 ```
 git clone https://github.com/ML-Project-Team-G11/Hatememedetection
@@ -20,4 +25,14 @@ pip install git+https://github.com/ML-Project-Team-G11/CLIP.git
 pip -r install requirements.txt
 python main.py
 ```
+
+### Features
+
+#### Related Work
+
+<p>
+Some related literature we referenced can be found [here](../main/Papers)
+</p>
+
+#### Scripts
 
