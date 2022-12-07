@@ -40,10 +40,10 @@ and part of the Memotion 7k dataset was used for this project.
 * [config.py](../master/hatememe/config.py) - contains model configurations assignment class
 * [dataset.py](../master/hatememe/dataset.py) - contains dataset loading class
 * [logger.py](../master/hatememe/logger.py) - contains wandb logger setup
-* [parser.py](../main/hatememe/parser.py) - contains code for parsing arguments from the command line
-* [run.sh](../main/run.sh) - contains code for parsing arguments from the command line
+* [parser.py](../master/hatememe/parser.py) - contains code for parsing arguments from the command line
+* [run.sh](../master/run.sh) - contains code for parsing arguments from the command line
 
 #### Notebooks
 
-* [add_memotion_dataset.ipynb](../main/hatememe/add_memotion_dataset.ipynb) - contains code for adding Memotion dataset to train set
-* [hatememe_clip.ipynb](../main/hatememe/hatememe_clip.ipynb) - contains our initial implementation of the project
+* [add_memotion_dataset.ipynb](../master/hatememe/add_memotion_dataset.ipynb) - contains code for adding Memotion dataset to train set
+* [hatememe_clip.ipynb](../master/hatememe/hatememe_clip.ipynb) - contains our initial implementation of the project
