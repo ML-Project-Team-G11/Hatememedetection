@@ -1,7 +1,7 @@
 # Multimodal Learning - Hate Meme Detection
 This repository contains codes of the ML701 capstone project at MBZUAI. 
 
-[Proposal](../main/G11_ML701_Project_Proposal.pdf)          [Poster](../main/ML701_Project_Poster.pdf)
+[Proposal](../master/G11_ML701_Project_Proposal.pdf)          [Poster](../master/ML701_Project_Poster.pdf)
 
 ### Overview
 <p>
@@ -36,10 +36,10 @@ and part of the Memotion 7k dataset was used for this project.
 
 #### Scripts
 
-* [architecture.py](../main/hatememe/architecture.py) - contains model architecture definitions
-* [config.py](../main/hatememe/config.py) - contains model configurations assignment class
-* [dataset.py](../main/hatememe/dataset.py) - contains dataset loading class
-* [logger.py](../main/hatememe/logger.py) - contains wandb logger setup
+* [architecture.py](../master/hatememe/architecture.py) - contains model architecture definitions
+* [config.py](../master/hatememe/config.py) - contains model configurations assignment class
+* [dataset.py](../master/hatememe/dataset.py) - contains dataset loading class
+* [logger.py](../master/hatememe/logger.py) - contains wandb logger setup
 * [parser.py](../main/hatememe/parser.py) - contains code for parsing arguments from the command line
 * [run.sh](../main/run.sh) - contains code for parsing arguments from the command line
 
