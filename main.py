@@ -86,6 +86,7 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, len(train_data
 scaler = torch.cuda.amp.GradScaler()
 
 best_auroc = 0
+best_acc = 0
 
 for epoch in range(cfg.epochs):
     running_loss = 0
@@ -154,12 +155,20 @@ for epoch in range(cfg.epochs):
     if auroc_score > best_auroc:
         torch.save(net.state_dict(), cfg.model_path)
         best_auroc = auroc_score
+        best_acc = accuracy_score
+        best_f1_score = f1_score
     print(
         f"[Epoch {epoch +1}, step {i+1:3d}] val loss: {running_loss/i+1:.5f} accuracy: "
         f"{accuracy_score} auroc: {auroc_score} f1_score: {f1_score}"
     )
     
     log({"val_loss":running_loss/i+1, "val_f1_score":f1_score, "val_accuracy":accuracy_score, "val_auroc":auroc_score})
+
+log({"val_loss":running_loss/i+1, "val_f1_score":best_f1_score, "val_accuracy":best_acc, "val_auroc":best_auroc})
+
+torch.cuda.empty_cache()
+gc.collect()
+del net
 
 ###################
 # Testing loop 
@@ -188,6 +197,7 @@ for i, data in enumerate(tqdm(test_dataloader), 0):
     preds_all_val = torch.cat((preds_all_val, torch.sigmoid(output).squeeze()))
     labels_all_val = torch.cat((labels_all_val, labels))
     
+wandb.watch(net)
 auroc = BinaryAUROC().to(device)
 auroc_score = auroc(preds_all_val, labels_all_val.int())
 accuracy = BinaryAccuracy().to(device)
