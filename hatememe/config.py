@@ -1,7 +1,5 @@
-import os
 import clip
 from copy import deepcopy
-from datetime import datetime
 
 from hatememe import parser
 
@@ -33,7 +31,16 @@ class CFG:
 
     train_image_base_model = args.train_image_base_model
     train_text_base_model = args.train_text_base_model
-    
+
+    mode = args.mode
+    data_split = args.data_split    
+
+    eager_transform = args.eager_transform
+
+    num_workers = args.num_workers
+    project_name = args.project_name
+    wandb_entity = args.wandb_entity
+    run_id = args.run_id
 
 
     @property

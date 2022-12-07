@@ -31,7 +31,7 @@ print("Torch version:", torch.__version__)
 
 from hatememe.dataset import HMDataset
 
-eager_transform = False
+eager_transform = cfg.eager_transform
 
 train_dataset = HMDataset(
         cfg.images_path,
@@ -177,7 +177,7 @@ del net
 # Load the best model
 net = HMMLP()
 net.load_state_dict(torch.load(cfg.model_path))
-net = net.cuda()
+net = net.to(device)
 net.eval()
 
 preds_all_val = torch.tensor([]).cuda()
