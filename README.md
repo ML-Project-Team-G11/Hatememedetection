@@ -25,7 +25,7 @@ python main.py
 
 #### Related Work 
 
-Some related literature we referenced can be found [here](../main/Papers)
+Some related literature we referenced can be found [here](../master/Papers)
 
 #### Dataset
 
