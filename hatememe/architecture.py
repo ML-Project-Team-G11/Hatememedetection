@@ -91,7 +91,8 @@ class HMMLP(nn.Module):
         map = {
             "concat":self.base_model.visual.output_dim*2, 
             "cross":self.base_model.visual.output_dim**2,
-            "align":self.base_model.visual.output_dim
+            "align":self.base_model.visual.output_dim,
+            "mean-align":self.base_model.visual.output_dim,
         }
 
         return map[self.config.fusion_method]
@@ -109,6 +110,7 @@ class HMMLP(nn.Module):
             "concat": lambda images, texts: torch.hstack((images, texts)),
             "cross": lambda images, texts: torch.bmm(images.unsqueeze(dim=2), texts.unsqueeze(dim=1)).view(images.shape[0], -1),
             "align": lambda images, texts: torch.mul(images, texts),
+            "mean-align": lambda images, texts: torch.divide(torch.add(images, texts), torch.tensor(2))
         }
         if callable(method):
             return method
