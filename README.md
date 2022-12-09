@@ -1,7 +1,7 @@
 # Multimodal Learning - Hate Meme Detection
 This repository contains codes of the ML701 capstone project at MBZUAI. 
 
-[Proposal](../master/G11_ML701_Project_Proposal.pdf)          [Poster](../master/ML701_Project_Poster.pdf)
+[Proposal](../master/Papers/G11_ML701_Project_Proposal.pdf)          [Poster](../master/Papers/ML701_Project_Poster.pdf)
 
 ### Overview
 <p>
@@ -45,5 +45,6 @@ and part of the Memotion 7k dataset was used for this project.
 
 #### Notebooks
 
-* [add_memotion_dataset.ipynb](../master/hatememe/add_memotion_dataset.ipynb) - contains code for adding Memotion dataset to train set
-* [hatememe_clip.ipynb](../master/hatememe/hatememe_clip.ipynb) - contains our initial implementation of the project
+* [add_memotion_dataset.ipynb](../master/notebooks/add_memotion_dataset.ipynb) - contains code for adding Memotion dataset to train set
+* [hatememe_clip.ipynb](../master/notebooks/hatememe_clip.ipynb) - contains our initial implementation of the project
+* [updated_tsne_plots.ipynb](../master/notebooks/updated_tsne_plots.ipynb) - tsne visualization for the datasets
